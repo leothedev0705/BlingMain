@@ -1,0 +1,113 @@
+{
+  "brand": {
+    "name": "BlingxBeyond",
+    "taglines": [
+      "Curating Moments, Crafting Memories",
+      "Elevate Every Occasion",
+      "Where Luxury Meets Emotion",
+      "Gift Beyond Ordinary, Create Beyond Expected",
+      "The Art of Extraordinary Gifting",
+      "India's Luxury Gift Experience",
+      "Timeless Treasures, Modern Elegance",
+      "Celebrations Reimagined, Emotions Redefined",
+      "For Those Who Deserve More Than Ordinary",
+      "Wrapped in Elegance, Delivered with Love"
+    ],
+    "valuePropositions": [
+      "Sophisticated Packaging",
+      "Personalized Product Curation",
+      "Timely Delivery",
+      "Aesthetic & Premium Feel"
+    ],
+    "colors": {
+      "primary": {
+        "ivory": "#FFFFF0",
+        "charcoal": "#36454F"
+      },
+      "accent": {
+        "blushPink": "#FEC5E5",
+        "gold": "#D4AF37",
+        "richGreen": "#01796F"
+      }
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Inter"
+    }
+  },
+  "products": {
+    "festiveCollections": [
+      {
+        "name": "Diwali Opulence Collection",
+        "description": "Illuminate celebrations with our curated gift hampers featuring handcrafted diyas, premium dry fruits, and artisanal sweets packaged in silk-lined boxes with gold embossing.",
+        "variants": ["Classic Elegance", "Royal Heritage", "Modern Fusion"]
+      },
+      {
+        "name": "Ethereal Rakshabandhan",
+        "description": "Celebrate sibling bonds with our personalized rakhi sets featuring semi-precious stones, accompanied by artisanal chocolates and customized message scrolls.",
+        "variants": ["Traditional Charm", "Contemporary Luxe", "Global Heritage"]
+      }
+    ],
+    "weddingGifting": [
+      {
+        "name": "Eternal Union Collection",
+        "description": "Commemorate the sacred union with personalized keepsake boxes featuring the couple's monogram, filled with luxury self-care products, champagne flutes, and customized mementos.",
+        "variants": ["Royal Romance", "Modern Minimalist", "Traditional Splendor"]
+      },
+      {
+        "name": "Heritage Trousseau",
+        "description": "Honor tradition with our bespoke collection of handcrafted textiles, heirloom-quality jewelry boxes, and artisanal home accents designed for new beginnings.",
+        "variants": ["Rajputana Legacy", "Contemporary Elegance", "Fusion Heritage"]
+      }
+    ],
+    "corporateGifting": [
+      {
+        "name": "Executive Appreciation",
+        "description": "Elevate business relationships with our premium desk accessories, personalized stationery, and curated gourmet experiences packaged in luxurious presentation boxes.",
+        "variants": ["C-Suite Collection", "Leadership Legacy", "Innovation Inspire"]
+      },
+      {
+        "name": "Client Milestone Celebrations",
+        "description": "Mark important achievements with customized gift sets featuring premium leather goods, exclusive beverages, and artisanal chocolates with your company's branding.",
+        "variants": ["Partnership Excellence", "Growth Journey", "Visionary Success"]
+      }
+    ]
+  },
+  "personas": [
+    {
+      "name": "Affluent Aesthete",
+      "description": "High-net-worth individuals aged 35-55 who value exclusivity, craftsmanship, and unique experiences. They are discerning collectors who see gifting as an extension of their personal brand.",
+      "preferences": ["Bespoke customization", "Heritage value", "Exclusive experiences", "Premium packaging"]
+    },
+    {
+      "name": "Cultural Connoisseur",
+      "description": "Global Indians aged 30-45 who deeply value their cultural heritage while embracing modern luxury. They seek gifts that tell a story and reflect both traditional values and contemporary elegance.",
+      "preferences": ["Cultural symbolism", "Artisanal craftsmanship", "Narrative-driven gifting", "Fusion aesthetics"]
+    },
+    {
+      "name": "Corporate Curator",
+      "description": "Business leaders and HR professionals responsible for maintaining client and employee relationships through thoughtful gifting programs that reflect company values.",
+      "preferences": ["Brand alignment", "Scalable luxury", "Memorable unboxing", "Tiered gifting solutions"]
+    }
+  ],
+  "marketingCampaigns": [
+    {
+      "name": "Illuminate & Celebrate",
+      "season": "Diwali",
+      "concept": "An immersive campaign highlighting how BlingxBeyond gifts illuminate relationships, featuring cinematic visuals of families unwrapping luxurious gift boxes that literally illuminate when opened.",
+      "tagline": "When Moments Shine Brighter Than Lights"
+    },
+    {
+      "name": "Love Transcends",
+      "season": "Valentine's Day",
+      "concept": "A sophisticated campaign focusing on the art of expressing love through thoughtfully curated gifts, emphasizing the emotional journey from selection to delivery.",
+      "tagline": "Beyond Words, Beyond Ordinary"
+    },
+    {
+      "name": "Heritage in Harmony",
+      "season": "Wedding Season",
+      "concept": "A campaign celebrating the blend of tradition and contemporary luxury in wedding gifting, featuring real couples and their gifting stories.",
+      "tagline": "Where Traditions Meet Tomorrow"
+    }
+  ]
+} 
