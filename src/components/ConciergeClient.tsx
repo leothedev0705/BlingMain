@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Header from './Header';
 import GiftConcierge from './GiftConcierge';
+import Footer from './Footer';
 
 const benefits = [
   {
@@ -44,10 +45,18 @@ export default function ConciergeClient() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-lg text-ivory/90 mb-8"
+                className="text-lg text-ivory/90 mb-4"
               >
                 Let our AI-powered concierge help you find the perfect gift for any occasion.
                 Experience personalized gifting at its finest.
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="text-md text-gold font-medium mb-8"
+              >
+                
               </motion.p>
             </div>
           </div>
@@ -117,40 +126,7 @@ export default function ConciergeClient() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-charcoal border-t border-gold/20 py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-8 md:mb-0">
-              <h3 className="text-xl font-bold text-ivory font-playfair">
-                Bling<span className="text-gold">x</span>Beyond
-              </h3>
-              <p className="text-ivory/70 mt-2">Elevating gifting to an art form</p>
-            </div>
-            <div className="flex flex-col md:flex-row gap-8">
-              <div>
-                <h4 className="text-gold font-medium mb-3">Collections</h4>
-                <ul className="space-y-2">
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Festive</Link></li>
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Wedding</Link></li>
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Corporate</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-gold font-medium mb-3">About</h4>
-                <ul className="space-y-2">
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Our Story</Link></li>
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Craftsmanship</Link></li>
-                  <li><Link href="#" className="text-ivory/70 hover:text-gold transition-colors">Contact</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gold/10 mt-12 pt-8 text-center">
-            <p className="text-ivory/50 text-sm">© {new Date().getFullYear()} BlingxBeyond. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 } 

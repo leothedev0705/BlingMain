@@ -1,5 +1,6 @@
 import Header from '../../components/Header';
 import Link from 'next/link';
+import Footer from '../../components/Footer';
 
 export default function ContactPage() {
   return (
@@ -116,12 +117,7 @@ export default function ContactPage() {
         </section>
       </main>
       
-      {/* Footer */}
-      <footer className="bg-charcoal border-t border-gold/20 py-8">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <p className="text-ivory/50 text-sm">© {new Date().getFullYear()} BlingxBeyond. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 } 

@@ -69,4 +69,116 @@ The site is fully responsive with optimized layouts for:
 
 ## 📝 License
 
-This project is proprietary and owned by BlingxBeyond. 
+This project is proprietary and owned by BlingxBeyond.
+
+# Bling×Beyond Chatbot
+
+An AI-powered chatbot for the Bling×Beyond website that helps users navigate the site and find information about products and services.
+
+## Features
+
+- Interactive chat interface
+- Powered by Google's Gemini 1.5 Flash model
+- Quick responses to common navigation questions
+- Conversation history and context awareness
+- Error handling and recovery
+
+## Setup
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- Gemini API key (get one from [Google AI Studio](https://ai.google.dev/))
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone [repository-url]
+cd [repository-name]
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up your environment:
+
+```bash
+npm run setup
+```
+
+Follow the prompts to enter your Gemini API key. This will create a `.env` file with your API key.
+
+### Testing the API Connection
+
+To verify your API key is working correctly, run:
+
+```bash
+npm run test:gemini
+```
+
+This will send a test message to the Gemini API and display the response.
+
+## Development
+
+To run the development server:
+
+```bash
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the website with the chatbot.
+
+## Production
+
+Build the application for production:
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm start
+```
+
+## Usage
+
+The chatbot appears as a chat bubble in the bottom right corner of the website. Users can:
+
+- Click the bubble to open the chat window
+- Type questions or navigational queries in the input field
+- Click the clear button to reset the conversation
+- Close the chat by clicking the X button or clicking outside the chat window
+
+## Customization
+
+### Chatbot Appearance
+
+The chatbot appearance can be customized in `src/components/ui/ChatBot.tsx`.
+
+### AI Responses
+
+To modify how the chatbot responds, edit the `src/utils/chatUtils.ts` file:
+
+- Adjust predefined responses in the `navigationResponses` object
+- Modify the system prompt in the `SYSTEM_PROMPT` constant
+- Adjust the model parameters in the `model` configuration
+
+## Troubleshooting
+
+If you encounter issues:
+
+1. Verify your API key is correct in the `.env` file
+2. Make sure you've installed all dependencies with `npm install`
+3. Check the browser console for any error messages
+4. Run `npm run test:gemini` to test the API connection
+
+## License
+
+[MIT License](LICENSE) 
