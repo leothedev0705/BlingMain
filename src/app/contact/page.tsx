@@ -1,8 +1,107 @@
+'use client';
+
 import Header from '../../components/Header';
 import Link from 'next/link';
 import Footer from '../../components/Footer';
+import { useState, FormEvent, useRef } from 'react';
+
+interface FormStatus {
+  submitting: boolean;
+  submitted: boolean;
+  error: string | null;
+}
 
 export default function ContactPage() {
+  const [formStatus, setFormStatus] = useState<FormStatus>({
+    submitting: false,
+    submitted: false,
+    error: null
+  });
+  
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('Form submission started');
+    setFormStatus({ submitting: true, submitted: false, error: null });
+
+    const formData = new FormData(e.currentTarget);
+    
+    // Log form data for debugging
+    console.log('Form data:', {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message')
+    });
+    
+    try {
+      // Create a hidden iframe for submission
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hidden-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      // Create the form
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSedvpyQ6FWv2393FlOVKIOru4P1GQCgkVBbDnZdCUzQ3PZOUA/formResponse';
+      form.target = 'hidden-iframe';
+      form.style.display = 'none';
+
+      // Add form fields
+      const entries = {
+        'entry.932374030': formData.get('name')?.toString() || '',
+        'entry.1445859178': formData.get('email')?.toString() || '',
+        'entry.647094820': formData.get('message')?.toString() || ''
+      };
+
+      Object.entries(entries).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      // Add form to body and submit
+      document.body.appendChild(form);
+      form.submit();
+
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+      }, 1000);
+
+      console.log('Form submitted successfully');
+      setFormStatus({
+        submitting: false,
+        submitted: true,
+        error: null
+      });
+
+      // Reset form
+      e.currentTarget.reset();
+
+      // Reset form status after 5 seconds
+      setTimeout(() => {
+        setFormStatus({
+          submitting: false,
+          submitted: false,
+          error: null
+        });
+      }, 5000);
+
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormStatus({
+        submitting: false,
+        submitted: false,
+        error: 'Failed to submit form. Please try again.'
+      });
+    }
+  };
+
   return (
     <>
       <Header />
@@ -25,7 +124,7 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="bg-white p-8 rounded-xl shadow-md">
                 <h2 className="text-2xl font-bold text-charcoal mb-6 font-playfair">Send Us a Message</h2>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-charcoal mb-1">
                       Your Name
@@ -34,6 +133,7 @@ export default function ContactPage() {
                       type="text"
                       id="name"
                       name="name"
+                      required
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
                       placeholder="John Doe"
                     />
@@ -46,6 +146,7 @@ export default function ContactPage() {
                       type="email"
                       id="email"
                       name="email"
+                      required
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
                       placeholder="john@example.com"
                     />
@@ -57,6 +158,7 @@ export default function ContactPage() {
                     <textarea
                       id="message"
                       name="message"
+                      required
                       rows={5}
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold"
                       placeholder="How can we help you?"
@@ -64,10 +166,25 @@ export default function ContactPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full gold-gradient text-charcoal font-medium py-2 px-4 rounded-md hover:shadow-lg transition-all duration-300"
+                    disabled={formStatus.submitting}
+                    className={`w-full gold-gradient text-charcoal font-medium py-2 px-4 rounded-md transition-all duration-300 ${
+                      formStatus.submitting ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'
+                    }`}
                   >
-                    Send Message
+                    {formStatus.submitting ? 'Sending...' : 'Send Message'}
                   </button>
+                  
+                  {formStatus.submitted && (
+                    <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-md">
+                      Thank you for your message! We'll get back to you soon.
+                    </div>
+                  )}
+                  
+                  {formStatus.error && (
+                    <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-md">
+                      {formStatus.error}
+                    </div>
+                  )}
                 </form>
               </div>
 
