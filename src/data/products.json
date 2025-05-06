@@ -1,0 +1,531 @@
+{
+  "collections": [
+    {
+      "id": "luxury-gifts",
+      "title": "Luxury Gifts",
+      "description": "Exquisite gifts for those who appreciate the finer things",
+      "image": "/images/collections/luxury-gifts.jpg",
+      "products": [
+        "earrings-1",
+        "necklace-1",
+        "gift-box-1",
+        "bracelet-2"
+      ]
+    },
+    {
+      "id": "wedding-collection",
+      "title": "Wedding Collection",
+      "description": "Make their special day even more memorable",
+      "image": "/images/collections/wedding-collection.jpg",
+      "products": [
+        "gift-box-2",
+        "earrings-2",
+        "bracelet-1",
+        "necklace-2"
+      ]
+    },
+    {
+      "id": "diwali-specials",
+      "title": "Diwali Specials",
+      "description": "Illuminate the festival of lights with our curated selection",
+      "image": "/images/collections/diwali-specials.jpg",
+      "products": [
+        "gift-box-1",
+        "gift-box-3",
+        "bracelet-3",
+        "necklace-3"
+      ]
+    },
+    {
+      "id": "corporate-gifts",
+      "title": "Corporate Gifts",
+      "description": "Strengthen business relationships with premium gifting options",
+      "image": "/images/collections/corporate-gifts.jpg",
+      "products": [
+        "gift-box-3",
+        "gift-box-4",
+        "leather-wallet",
+        "planner"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "earrings-1",
+      "name": "Rock head combo",
+      "description": "Spearhead +avarock",
+      "price": 299,
+      "discount_price": 279,
+      "images": [
+        "blob:http://localhost:3000/8de16465-0fe2-4c3f-b44d-d5b5d0de9af4"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "luxury-gifts"
+      ],
+      "tags": [
+        "earrings",
+        "crystal",
+        "elegant",
+        "Rock"
+      ],
+      "features": [
+        "Hypoallergenic",
+        "Includes gift box",
+        "Lava rock"
+      ],
+      "stock": 12,
+      "related_products": [
+        "necklace-1",
+        "bracelet-1",
+        "earrings-2"
+      ]
+    },
+    {
+      "id": "necklace-1",
+      "name": "Vintage Pearl Pendant",
+      "description": "A timeless pearl pendant on a delicate gold chain, embodying elegance and sophistication.",
+      "price": 4999,
+      "discount_price": null,
+      "images": [
+        "/images/products/necklace-1-1.jpg",
+        "/images/products/necklace-1-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "luxury-gifts"
+      ],
+      "tags": [
+        "necklace",
+        "pearl",
+        "pendant",
+        "gold",
+        "gift for her"
+      ],
+      "features": [
+        "Freshwater pearl",
+        "14K gold chain",
+        "Adjustable length",
+        "Luxury gift packaging"
+      ],
+      "stock": 8,
+      "related_products": [
+        "earrings-1",
+        "bracelet-2",
+        "necklace-2"
+      ]
+    },
+    {
+      "id": "bracelet-1",
+      "name": "Rose Gold Charm Bracelet",
+      "description": "Elegant rose gold bracelet with customizable charms, perfect for a personal touch.",
+      "price": 3799,
+      "discount_price": 3299,
+      "images": [
+        "/images/products/bracelet-1-1.jpg",
+        "/images/products/bracelet-1-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "wedding-collection"
+      ],
+      "tags": [
+        "bracelet",
+        "rose gold",
+        "charm",
+        "gift for her"
+      ],
+      "features": [
+        "Rose gold plated",
+        "Adjustable size",
+        "Includes 3 starter charms",
+        "Premium gift box"
+      ],
+      "stock": 15,
+      "related_products": [
+        "earrings-2",
+        "necklace-2",
+        "bracelet-2"
+      ]
+    },
+    {
+      "id": "gift-box-1",
+      "name": "Luxury Celebration Gift Box",
+      "description": "A premium gift box containing a selection of luxury items, perfect for special occasions.",
+      "price": 7999,
+      "discount_price": 6999,
+      "images": [
+        "/images/products/gift-box-1-1.jpg",
+        "/images/products/gift-box-1-2.jpg"
+      ],
+      "categories": [
+        "gift-boxes",
+        "luxury-gifts",
+        "diwali-specials"
+      ],
+      "tags": [
+        "gift box",
+        "luxury",
+        "anniversary",
+        "celebration"
+      ],
+      "features": [
+        "Scented candle",
+        "Handmade chocolates",
+        "Artisanal tea selection",
+        "Crystal wine glasses",
+        "Premium packaging"
+      ],
+      "stock": 5,
+      "related_products": [
+        "gift-box-2",
+        "gift-box-3",
+        "necklace-1"
+      ]
+    },
+    {
+      "id": "earrings-2",
+      "name": "Sapphire Stud Earrings",
+      "description": "Elegant sapphire studs set in sterling silver, a timeless addition to any jewelry collection.",
+      "price": 5299,
+      "discount_price": null,
+      "images": [
+        "/images/products/earrings-2-1.jpg",
+        "/images/products/earrings-2-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "wedding-collection"
+      ],
+      "tags": [
+        "earrings",
+        "sapphire",
+        "studs",
+        "gift for her"
+      ],
+      "features": [
+        "Genuine sapphire gemstones",
+        "Sterling silver setting",
+        "Butterfly backs",
+        "Premium jewelry box"
+      ],
+      "stock": 7,
+      "related_products": [
+        "necklace-2",
+        "bracelet-1",
+        "earrings-1"
+      ]
+    },
+    {
+      "id": "bracelet-2",
+      "name": "Lava Rock bracelet",
+      "description": "Sexy Lava rock bracelet",
+      "price": 160,
+      "discount_price": 140,
+      "images": [
+        "blob:http://localhost:3000/2ac4556b-5a81-45ed-99da-99f8ef74b173"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "luxury-gifts"
+      ],
+      "tags": [
+        "bracelet",
+        "Lavarock",
+        "Stability"
+      ],
+      "features": [
+        "Strong beads",
+        "real rock"
+      ],
+      "stock": 10,
+      "related_products": [
+        "necklace-1",
+        "earrings-1",
+        "bracelet-3"
+      ]
+    },
+    {
+      "id": "necklace-2",
+      "name": "Emerald Pendant Necklace",
+      "description": "Stunning emerald pendant on a delicate platinum chain, the epitome of elegance.",
+      "price": 8999,
+      "discount_price": null,
+      "images": [
+        "/images/products/necklace-2-1.jpg",
+        "/images/products/necklace-2-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "wedding-collection"
+      ],
+      "tags": [
+        "necklace",
+        "emerald",
+        "pendant",
+        "platinum",
+        "gift for her"
+      ],
+      "features": [
+        "Natural emerald stone",
+        "Platinum chain",
+        "Diamond accents",
+        "Luxury gift packaging"
+      ],
+      "stock": 4,
+      "related_products": [
+        "earrings-2",
+        "bracelet-1",
+        "necklace-1"
+      ]
+    },
+    {
+      "id": "gift-box-2",
+      "name": "Wedding Bliss Gift Box",
+      "description": "Celebrate new beginnings with this specially curated wedding gift box.",
+      "price": 9999,
+      "discount_price": 8999,
+      "images": [
+        "/images/products/gift-box-2-1.jpg",
+        "/images/products/gift-box-2-2.jpg"
+      ],
+      "categories": [
+        "gift-boxes",
+        "wedding-collection"
+      ],
+      "tags": [
+        "gift box",
+        "wedding",
+        "couple",
+        "luxury"
+      ],
+      "features": [
+        "Champagne flutes",
+        "Scented candles",
+        "Personalized photo frame",
+        "Luxury bath products",
+        "Premium packaging"
+      ],
+      "stock": 6,
+      "related_products": [
+        "gift-box-1",
+        "bracelet-1",
+        "necklace-2"
+      ]
+    },
+    {
+      "id": "bracelet-3",
+      "name": "Traditional Gold Bangle",
+      "description": "Intricately designed gold bangle featuring traditional patterns, perfect for festive occasions.",
+      "price": 15999,
+      "discount_price": 14299,
+      "images": [
+        "/images/products/bracelet-3-1.jpg",
+        "/images/products/bracelet-3-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "diwali-specials"
+      ],
+      "tags": [
+        "bracelet",
+        "bangle",
+        "gold",
+        "traditional",
+        "festival"
+      ],
+      "features": [
+        "22K gold",
+        "Handcrafted design",
+        "Traditional motifs",
+        "Velvet gift box"
+      ],
+      "stock": 4,
+      "related_products": [
+        "necklace-3",
+        "gift-box-3",
+        "bracelet-1"
+      ]
+    },
+    {
+      "id": "necklace-3",
+      "name": "Traditional Kundan Necklace",
+      "description": "Opulent kundan necklace featuring traditional craftsmanship, perfect for weddings and festivals.",
+      "price": 22999,
+      "discount_price": null,
+      "images": [
+        "/images/products/necklace-3-1.jpg",
+        "/images/products/necklace-3-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "jewelry",
+        "diwali-specials"
+      ],
+      "tags": [
+        "necklace",
+        "kundan",
+        "traditional",
+        "gold",
+        "festival"
+      ],
+      "features": [
+        "Handcrafted kundan work",
+        "22K gold plated",
+        "Semi-precious stones",
+        "Includes matching earrings",
+        "Premium gift box"
+      ],
+      "stock": 2,
+      "related_products": [
+        "bracelet-3",
+        "gift-box-3",
+        "earrings-1"
+      ]
+    },
+    {
+      "id": "gift-box-3",
+      "name": "Diwali Celebration Gift Box123",
+      "description": "Illuminate the festival of lights with this specially curated Diwali gift box.",
+      "price": 6999,
+      "discount_price": 5999,
+      "images": [
+        "/images/products/gift-box-3-1.jpg",
+        "/images/products/gift-box-3-2.jpg"
+      ],
+      "categories": [
+        "gift-boxes",
+        "diwali-specials",
+        "corporate-gifts"
+      ],
+      "tags": [
+        "gift box",
+        "diwali",
+        "festival",
+        "celebration"
+      ],
+      "features": [
+        "Designer diyas",
+        "Premium dry fruits",
+        "Artisanal sweets",
+        "Scented candles",
+        "Luxury packaging"
+      ],
+      "stock": 8,
+      "related_products": [
+        "bracelet-3",
+        "necklace-3",
+        "gift-box-1"
+      ]
+    },
+    {
+      "id": "gift-box-4",
+      "name": "Executive Appreciation Box",
+      "description": "Premium gift box designed to express appreciation to executives and business partners.",
+      "price": 8499,
+      "discount_price": 7499,
+      "images": [
+        "/images/products/gift-box-4-1.jpg",
+        "/images/products/gift-box-4-2.jpg"
+      ],
+      "categories": [
+        "gift-boxes",
+        "corporate-gifts"
+      ],
+      "tags": [
+        "gift box",
+        "corporate",
+        "executive",
+        "business"
+      ],
+      "features": [
+        "Premium fountain pen",
+        "Leather organizer",
+        "Gourmet chocolates",
+        "Single malt whiskey",
+        "Elegant packaging"
+      ],
+      "stock": 10,
+      "related_products": [
+        "leather-wallet",
+        "planner",
+        "gift-box-3"
+      ]
+    },
+    {
+      "id": "leather-wallet",
+      "name": "Premium Leather Wallet",
+      "description": "Handcrafted leather wallet with elegant design and functionality, perfect for corporate gifting.",
+      "price": 2999,
+      "discount_price": null,
+      "images": [
+        "/images/products/leather-wallet-1.jpg",
+        "/images/products/leather-wallet-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "corporate-gifts"
+      ],
+      "tags": [
+        "wallet",
+        "leather",
+        "men",
+        "corporate"
+      ],
+      "features": [
+        "Genuine Italian leather",
+        "Multiple card slots",
+        "RFID protection",
+        "Personalization available",
+        "Gift box included"
+      ],
+      "stock": 15,
+      "related_products": [
+        "planner",
+        "gift-box-4",
+        "bracelet-2"
+      ]
+    },
+    {
+      "id": "planner",
+      "name": "Executive Leather Planner",
+      "description": "Sophisticated leather planner with premium features, an ideal gift for professionals.",
+      "price": 3499,
+      "discount_price": 2999,
+      "images": [
+        "/images/products/planner-1.jpg",
+        "/images/products/planner-2.jpg"
+      ],
+      "categories": [
+        "accessories",
+        "corporate-gifts"
+      ],
+      "tags": [
+        "planner",
+        "leather",
+        "stationery",
+        "corporate"
+      ],
+      "features": [
+        "Genuine leather cover",
+        "Premium paper",
+        "Weekly and monthly layouts",
+        "Business card slots",
+        "Personalization available"
+      ],
+      "stock": 12,
+      "related_products": [
+        "leather-wallet",
+        "gift-box-4",
+        "bracelet-2"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -9,152 +9,88 @@ import Footer from '@/components/Footer';
 
 // Product type definition
 type Product = {
-  id: number;
+  id: string;
   name: string;
-  price: string;
-  category: string[];
-  image: string;
-  bestseller: boolean;
-  new: boolean;
+  description: string;
+  price: number;
+  discount_price: number | null;
+  images: string[];
+  categories: string[];
+  tags: string[];
+  features: string[];
+  stock: number;
+  related_products: string[];
 };
 
-// Sample products data
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Royal Heritage Gift Box",
-    price: "₹8,500",
-    category: ["Wedding", "Luxury"],
-    image: "/assets/gift1.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 2,
-    name: "Diwali Celebration Hamper",
-    price: "₹12,000",
-    category: ["Festive", "Corporate"],
-    image: "/assets/gift2.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 3,
-    name: "Personalized Anniversary Set",
-    price: "₹15,500",
-    category: ["Anniversary", "Personalized"],
-    image: "/assets/gift3.jpg",
-    bestseller: false,
-    new: true
-  },
-  {
-    id: 4,
-    name: "Corporate Excellence Award",
-    price: "₹9,250",
-    category: ["Corporate", "Executive"],
-    image: "/assets/gift4.jpg",
-    bestseller: false,
-    new: true
-  },
-  {
-    id: 5,
-    name: "Luxury Tea & Treats Hamper",
-    price: "₹7,800",
-    category: ["Festive", "Gourmet"],
-    image: "/assets/gift5.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 6,
-    name: "Artisanal Wellness Basket",
-    price: "₹11,200",
-    category: ["Birthday", "Wellness"],
-    image: "/assets/gift6.jpg",
-    bestseller: false,
-    new: true
-  },
-  {
-    id: 7,
-    name: "Premium Wine Gift Set",
-    price: "₹18,500",
-    category: ["Corporate", "Luxury"],
-    image: "/assets/gift7.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 8,
-    name: "Handcrafted Jewelry Box",
-    price: "₹21,000",
-    category: ["Wedding", "Luxury"],
-    image: "/assets/gift8.jpg",
-    bestseller: false,
-    new: true
-  },
-  {
-    id: 9,
-    name: "Festival of Lights Collection",
-    price: "₹14,500",
-    category: ["Festive", "Personalized"],
-    image: "/assets/gift9.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 10,
-    name: "Executive Success Briefcase",
-    price: "₹25,000",
-    category: ["Corporate", "Executive"],
-    image: "/assets/gift10.jpg",
-    bestseller: false,
-    new: true
-  },
-  {
-    id: 11,
-    name: "Celebration Gift Tower",
-    price: "₹16,750",
-    category: ["Birthday", "Anniversary"],
-    image: "/assets/gift11.jpg",
-    bestseller: true,
-    new: false
-  },
-  {
-    id: 12,
-    name: "Gourmet Chocolate Collection",
-    price: "₹9,800",
-    category: ["Gourmet", "Personalized"],
-    image: "/assets/gift12.jpg",
-    bestseller: false,
-    new: true
-  }
-];
-
-// All available categories
-const allCategories = ["All", "Wedding", "Corporate", "Festive", "Birthday", "Anniversary", "Luxury", "Personalized", "Gourmet", "Executive", "Wellness"];
+type ProductData = {
+  collections: any[];
+  products: Product[];
+};
 
 export default function ShopPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [productData, setProductData] = useState<ProductData | null>(null);
+  const [activeCategory, setActiveCategory] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
 
+  // Fetch products from the API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        setProductData(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Get all unique categories from products
+  const allCategories = productData?.products
+    ? ["all", ...Array.from(new Set(productData.products.flatMap(product => product.categories)))]
+    : ["all"];
+
+  // Format categories for display
+  const formatCategory = (category: string) => {
+    return category === "all" 
+      ? "All Products"
+      : category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+
   // Filter products based on active category
-  const filteredProducts = activeCategory === "All" 
-    ? products 
-    : products.filter(product => product.category.includes(activeCategory));
+  const filteredProducts = !productData?.products
+    ? []
+    : activeCategory === "all"
+      ? productData.products
+      : productData.products.filter(product => product.categories.includes(activeCategory));
   
   // Sort products based on selected sorting option
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortBy === "priceHigh") {
-      return parseInt(b.price.replace(/[^\d]/g, '')) - parseInt(a.price.replace(/[^\d]/g, ''));
+      return b.price - a.price;
     } else if (sortBy === "priceLow") {
-      return parseInt(a.price.replace(/[^\d]/g, '')) - parseInt(b.price.replace(/[^\d]/g, ''));
-    } else if (sortBy === "newest") {
-      return a.new ? -1 : b.new ? 1 : 0;
+      return a.price - b.price;
+    } else if (sortBy === "name") {
+      return a.name.localeCompare(b.name);
     } else {
-      // Default: featured - bestsellers first
-      return a.bestseller ? -1 : b.bestseller ? 1 : 0;
+      // Default: featured - we'll use stock as a proxy for bestsellers (lower stock = more popular)
+      return a.stock - b.stock;
     }
   });
+
+  // Format price as currency
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
 
   return (
     <>
@@ -199,7 +135,7 @@ export default function ShopPage() {
                           : "text-charcoal/80 hover:bg-gold/5"
                       }`}
                     >
-                      {category}
+                      {formatCategory(category)}
                     </button>
                   </li>
                 ))}
@@ -208,70 +144,95 @@ export default function ShopPage() {
 
             {/* Products */}
             <div className="flex-1">
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-playfair font-bold text-charcoal">
-                  {activeCategory === "All" ? "All Products" : activeCategory}
-                </h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-charcoal/70">Sort by:</span>
+              {/* Sorting and Results */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <p className="text-charcoal/70 text-sm">
+                  Showing {sortedProducts.length} {sortedProducts.length === 1 ? 'product' : 'products'}
+                </p>
+                <div className="flex items-center">
+                  <label className="text-sm text-charcoal/70 mr-2">Sort by:</label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="bg-white border border-charcoal/20 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-gold"
+                    className="border-0 bg-white rounded-md py-2 pr-8 pl-3 text-sm focus:ring-2 focus:ring-gold/30 text-charcoal shadow-sm"
                   >
                     <option value="featured">Featured</option>
-                    <option value="newest">Newest</option>
                     <option value="priceLow">Price: Low to High</option>
                     <option value="priceHigh">Price: High to Low</option>
+                    <option value="name">Name</option>
                   </select>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all group"
-                  >
-                    <div className="relative h-64 overflow-hidden">
-                      <Image
-                        src={product.image || "/assets/placeholder.jpg"}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {product.bestseller && (
-                        <div className="absolute top-4 left-4 bg-gold text-charcoal text-xs font-medium px-2 py-1 rounded">
-                          Bestseller
+              {loading ? (
+                <div className="py-20 flex items-center justify-center">
+                  <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-gold border-r-transparent align-[-0.125em]"></div>
+                </div>
+              ) : sortedProducts.length === 0 ? (
+                <div className="py-16 text-center">
+                  <p className="text-xl text-charcoal/70">No products found in this category.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {sortedProducts.map((product) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+                    >
+                      <div className="relative h-64 bg-gray-100">
+                        <Image
+                          src={product.images?.[0] || '/assets/placeholder.jpg'}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
+                        {product.stock < 5 && product.stock > 0 && (
+                          <div className="absolute top-4 left-4 bg-amber-500 text-white text-xs px-2 py-1 rounded-md">
+                            Low Stock
+                          </div>
+                        )}
+                        {product.stock === 0 && (
+                          <div className="absolute top-4 left-4 bg-red-500 text-white text-xs px-2 py-1 rounded-md">
+                            Sold Out
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-6">
+                        <h3 className="font-semibold text-lg text-charcoal mb-2">{product.name}</h3>
+                        <div className="flex items-center mb-4">
+                          {product.discount_price ? (
+                            <>
+                              <span className="text-gold font-bold text-lg">{formatPrice(product.discount_price)}</span>
+                              <span className="ml-2 text-charcoal/50 text-sm line-through">{formatPrice(product.price)}</span>
+                            </>
+                          ) : (
+                            <span className="text-gold font-bold text-lg">{formatPrice(product.price)}</span>
+                          )}
                         </div>
-                      )}
-                      {product.new && (
-                        <div className="absolute top-4 left-4 bg-blush text-white text-xs font-medium px-2 py-1 rounded">
-                          New Arrival
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {product.categories.slice(0, 3).map((category) => (
+                            <span
+                              key={category}
+                              className="bg-gray-100 text-charcoal/70 text-xs px-2 py-1 rounded"
+                            >
+                              {formatCategory(category)}
+                            </span>
+                          ))}
                         </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <div className="p-5">
-                      <h3 className="text-lg font-playfair font-semibold text-charcoal mb-2">
-                        {product.name}
-                      </h3>
-                      <div className="flex justify-between items-center">
-                        <p className="text-gold font-medium">{product.price}</p>
                         <Link
-                          href={`/shop/product/${product.id}`}
-                          className="text-sm text-charcoal/70 hover:text-gold transition-colors"
+                          href={`/product/${product.id}`}
+                          className="block w-full py-2 px-4 bg-charcoal text-ivory text-center rounded-md hover:bg-charcoal/90 transition-colors"
                         >
                           View Details
                         </Link>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>

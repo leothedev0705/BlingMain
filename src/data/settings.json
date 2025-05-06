@@ -1,0 +1,32 @@
+{
+  "general": {
+    "siteName": "BlingxBeyond",
+    "siteDescription": "Luxury Gift Shop",
+    "contactEmail": "support@blingxbeyond.com",
+    "contactPhone": "+91 9876543210",
+    "socialLinks": {
+      "instagram": "",
+      "facebook": "",
+      "twitter": ""
+    }
+  },
+  "shipping": {
+    "freeShippingThreshold": 5000,
+    "standardShippingRate": 200,
+    "expressShippingRate": 500
+  },
+  "payment": {
+    "enabledPaymentMethods": [
+      "card",
+      "upi",
+      "netbanking"
+    ],
+    "taxRate": 18
+  },
+  "notifications": {
+    "orderConfirmation": true,
+    "orderShipped": true,
+    "orderDelivered": true,
+    "abandonedCart": false
+  }
+}

@@ -1,118 +1,104 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// Collection type definition
-type Collection = {
+// Collection and Product type definitions
+type Product = {
   id: string;
   name: string;
   description: string;
-  image: string;
-  productCount: number;
-  featured: boolean;
+  price: number;
+  discount_price: number | null;
+  images: string[];
+  categories: string[];
   tags: string[];
+  features: string[];
+  stock: number;
+  related_products: string[];
 };
 
-// Collections data
-const collections: Collection[] = [
-  {
-    id: 'wedding',
-    name: 'Royal Wedding Collection',
-    description: 'Exquisite gift hampers and bespoke items to celebrate the sacred union. Features handcrafted pieces with traditional motifs and contemporary designs.',
-    image: '/assets/collection-wedding.jpg',
-    productCount: 24,
-    featured: true,
-    tags: ['Wedding', 'Luxury', 'Handcrafted']
-  },
-  {
-    id: 'festive',
-    name: 'Festive Celebrations',
-    description: 'Illuminate your celebrations with our curated collection of festive gift hampers, artisanal decorations, and premium gourmet selections.',
-    image: '/assets/collection-festive.jpg',
-    productCount: 32,
-    featured: true,
-    tags: ['Festive', 'Diwali', 'Holi', 'Handcrafted']
-  },
-  {
-    id: 'corporate',
-    name: 'Corporate Excellence',
-    description: 'Impress your clients and colleagues with sophisticated corporate gifts that reflect professionalism and premium quality.',
-    image: '/assets/collection-corporate.jpg',
-    productCount: 18,
-    featured: true,
-    tags: ['Corporate', 'Executive', 'Professional']
-  },
-  {
-    id: 'personalized',
-    name: 'Personalized Treasures',
-    description: 'Create meaningful connections with custom-designed gifts featuring monograms, special messages, and bespoke creations.',
-    image: '/assets/collection-personalized.jpg',
-    productCount: 26,
-    featured: false,
-    tags: ['Personalized', 'Custom', 'Bespoke']
-  },
-  {
-    id: 'anniversary',
-    name: 'Anniversary Celebrations',
-    description: 'Commemorate special milestones with our curated selection of luxurious gift sets designed to create lasting memories.',
-    image: '/assets/collection-anniversary.jpg',
-    productCount: 15,
-    featured: false,
-    tags: ['Anniversary', 'Romance', 'Celebration']
-  },
-  {
-    id: 'luxury',
-    name: 'Luxury Indulgence',
-    description: 'Discover the epitome of opulence with our exclusive luxury gift collection featuring handpicked premium items.',
-    image: '/assets/collection-luxury.jpg',
-    productCount: 20,
-    featured: true,
-    tags: ['Luxury', 'Premium', 'Exclusive']
-  },
-  {
-    id: 'wellness',
-    name: 'Wellness & Self-Care',
-    description: 'Curated gift boxes featuring artisanal wellness products that promote relaxation, mindfulness, and self-care.',
-    image: '/assets/collection-wellness.jpg',
-    productCount: 22,
-    featured: false,
-    tags: ['Wellness', 'Self-Care', 'Relaxation']
-  },
-  {
-    id: 'gourmet',
-    name: 'Gourmet Delights',
-    description: 'Premium food and beverage collections featuring artisanal chocolates, exotic teas, fine wines, and gourmet delicacies.',
-    image: '/assets/collection-gourmet.jpg',
-    productCount: 28,
-    featured: false,
-    tags: ['Gourmet', 'Food', 'Beverage']
-  }
-];
+type Collection = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  products: string[];
+};
+
+type ProductData = {
+  collections: Collection[];
+  products: Product[];
+};
 
 export default function CollectionsPage() {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [productData, setProductData] = useState<ProductData | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Fetch product data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        setProductData(data);
+      } catch (error) {
+        console.error("Failed to fetch product data:", error);
+        // Fallback to local import if API fails
+        import('@/data/products.json')
+          .then((module) => {
+            setProductData(module.default);
+          })
+          .catch((err) => {
+            console.error("Failed to load local data:", err);
+          });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Available filters
+  const getCollectionTags = () => {
+    const tags = new Set<string>();
+    productData?.collections.forEach(collection => {
+      tags.add(collection.id);
+    });
+    return Array.from(tags);
+  };
+
+  const filters = [
+    { id: 'all', name: 'All Collections' },
+    ...(getCollectionTags().map(tag => ({ id: tag, name: tag.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') })))
+  ];
   
   // Filter collections based on active filter
   const filteredCollections = activeFilter === 'all' 
-    ? collections 
-    : activeFilter === 'featured'
-      ? collections.filter(collection => collection.featured)
-      : collections.filter(collection => collection.tags.includes(activeFilter));
+    ? productData?.collections 
+    : productData?.collections.filter(collection => collection.id === activeFilter);
 
-  // Available filters
-  const filters = [
-    { id: 'all', name: 'All Collections' },
-    { id: 'featured', name: 'Featured' },
-    { id: 'Wedding', name: 'Wedding' },
-    { id: 'Festive', name: 'Festive' },
-    { id: 'Corporate', name: 'Corporate' },
-    { id: 'Personalized', name: 'Personalized' }
-  ];
+  // Loading state
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <main className="flex flex-col min-h-screen pt-[90px]">
+          <div className="container mx-auto px-4 py-24 text-center">
+            <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-gold border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+            <p className="mt-4 text-lg text-charcoal">Loading collections...</p>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -160,63 +146,71 @@ export default function CollectionsPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 md:gap-12">
-              {filteredCollections.map((collection, index) => (
-                <motion.div
-                  key={collection.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group"
-                >
-                  <Link href={`/collections/${collection.id}`}>
-                    <div className="relative h-72 md:h-80 overflow-hidden rounded-xl mb-6">
-                      <Image
-                        src={collection.image || "/assets/placeholder.jpg"}
-                        alt={collection.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      {collection.featured && (
-                        <div className="absolute top-4 right-4 bg-gold text-charcoal text-xs font-medium px-3 py-1 rounded-full">
-                          Featured Collection
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                      <div className="absolute bottom-0 left-0 p-6 md:p-8">
-                        <h3 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-2 group-hover:text-gold transition-colors">
-                          {collection.name}
-                        </h3>
-                        <div className="flex gap-2">
-                          {collection.tags.slice(0, 3).map((tag, i) => (
-                            <span key={i} className="text-xs uppercase bg-white/20 backdrop-blur-sm px-2 py-1 rounded text-white/90">
-                              {tag}
-                            </span>
-                          ))}
+              {filteredCollections?.map((collection, index) => {
+                // Count the products in this collection
+                const collectionProductCount = collection.products.length;
+                
+                // Get a few product categories as tags
+                const productTags = productData?.products
+                  .filter(product => collection.products.includes(product.id))
+                  .flatMap(product => product.categories)
+                  .filter((tag, index, self) => self.indexOf(tag) === index)
+                  .slice(0, 3)
+                  .map(tag => tag.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')) || [];
+                
+                return (
+                  <motion.div
+                    key={collection.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group"
+                  >
+                    <Link href={`/collections/${collection.id}`}>
+                      <div className="relative h-72 md:h-80 overflow-hidden rounded-xl mb-6">
+                        <Image
+                          src={collection.image || "/assets/placeholder.jpg"}
+                          alt={collection.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                        <div className="absolute bottom-0 left-0 p-6 md:p-8">
+                          <h3 className="text-2xl md:text-3xl font-playfair font-bold text-white mb-2 group-hover:text-gold transition-colors">
+                            {collection.title}
+                          </h3>
+                          <div className="flex gap-2">
+                            {productTags.map((tag, i) => (
+                              <span key={i} className="text-xs uppercase bg-white/20 backdrop-blur-sm px-2 py-1 rounded text-white/90">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
+                    </Link>
+                    <div className="md:px-2">
+                      <p className="text-charcoal/80 mb-4">
+                        {collection.description}
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-charcoal/60">
+                          {collectionProductCount} Products
+                        </span>
+                        <Link
+                          href={`/collections/${collection.id}`}
+                          className="text-gold font-medium hover:text-gold/80 transition-colors flex items-center gap-2"
+                        >
+                          Explore Collection
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </Link>
+                      </div>
                     </div>
-                  </Link>
-                  <div className="md:px-2">
-                    <p className="text-charcoal/80 mb-4">
-                      {collection.description}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-charcoal/60">
-                        {collection.productCount} Products
-                      </span>
-                      <Link
-                        href={`/collections/${collection.id}`}
-                        className="text-gold font-medium hover:text-gold/80 transition-colors flex items-center gap-2"
-                      >
-                        Explore Collection
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -251,75 +245,60 @@ export default function CollectionsPage() {
                   )
                 },
                 {
-                  title: "Artisanal Craftsmanship",
-                  description: "We collaborate with skilled artisans across India to create exclusive items that showcase traditional techniques and contemporary designs.",
+                  title: "Artisanal Excellence",
+                  description: "We partner with skilled artisans and craftspeople who bring exceptional artistry and technical mastery to each product in our collections.",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                     </svg>
                   )
                 },
                 {
-                  title: "Seasonal Refreshes",
-                  description: "Our collections evolve with changing seasons and occasions, ensuring you always have access to fresh, relevant, and on-trend gifting options.",
+                  title: "Luxurious Presentation",
+                  description: "Each item is beautifully presented with premium packaging that enhances the gifting experience and creates a memorable unboxing moment.",
                   icon: (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
                   )
                 }
-              ].map((item, index) => (
+              ].map((process, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.2 }}
-                  className="bg-white rounded-xl p-8 shadow-sm"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white p-8 rounded-xl shadow-sm"
                 >
-                  <div className="mb-6">{item.icon}</div>
-                  <h3 className="text-xl font-semibold text-charcoal mb-3">{item.title}</h3>
-                  <p className="text-charcoal/70">{item.description}</p>
+                  <div className="mb-5">{process.icon}</div>
+                  <h3 className="text-xl font-bold mb-3 text-charcoal">{process.title}</h3>
+                  <p className="text-charcoal/70">{process.description}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Subscription CTA */}
-        <section className="py-16">
+        {/* CTA */}
+        <section className="py-16 bg-gold/10">
           <div className="container mx-auto px-4 md:px-6">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="bg-blush/10 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden"
-            >
-              <div className="max-w-3xl mx-auto relative z-10">
-                <h2 className="text-3xl md:text-4xl font-playfair font-bold text-charcoal mb-6">
-                  Stay Updated with New Collections
-                </h2>
-                <p className="text-lg text-charcoal/80 mb-8">
-                  Subscribe to our newsletter to be the first to know about new collection launches, limited edition releases, and exclusive offers.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
-                  <input
-                    type="email"
-                    placeholder="Your email address"
-                    className="bg-white border border-gold/20 rounded-md px-6 py-3 focus:outline-none focus:ring-2 focus:ring-gold/50 min-w-0 sm:min-w-[300px]"
-                  />
-                  <button className="inline-flex items-center justify-center px-6 py-3 bg-gold text-charcoal font-medium rounded-md hover:bg-gold/90 transition-all duration-300">
-                    Subscribe
-                  </button>
-                </div>
-                <p className="text-xs text-charcoal/60">
-                  By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+            <div className="flex flex-col md:flex-row items-center justify-between bg-white rounded-2xl p-8 md:p-12 shadow-sm">
+              <div className="mb-6 md:mb-0">
+                <h3 className="text-2xl md:text-3xl font-playfair font-bold text-charcoal mb-3">
+                  Need Help Finding the Perfect Gift?
+                </h3>
+                <p className="text-lg text-charcoal/70 max-w-2xl">
+                  Our gift concierge service helps you select the ideal gifts based on the recipient's preferences and your occasion.
                 </p>
               </div>
-              <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-blush/10 z-0"></div>
-              <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-gold/10 z-0"></div>
-            </motion.div>
+              <Link 
+                href="/concierge"
+                className="px-8 py-3 bg-gold text-white font-medium rounded-lg hover:bg-gold/90 transition-colors whitespace-nowrap"
+              >
+                Try Gift Concierge
+              </Link>
+            </div>
           </div>
         </section>
       </main>
